@@ -253,15 +253,6 @@ xdf<-xd7
 
 #print("Number of unique proteins used in calculation:", length(unique(xdf$protein)))
 
-hist(unique(xdf$cvm[xdf$celltype!=your_control_label]), col=rgb(0,1,0,1/4), prob=T, breaks=50, main = "X single cells ", xlab="CV")
-hist(unique(xdf$cvm[xdf$celltype==your_control_label]), col=rgb(1,0,0,1/4), prob=T, add=T, breaks=40)
-
-
-# USER TUNED
-
-hist(unique(xdf$cvm[xdf$celltype!=your_control_label]), col=rgb(0,1,0,1/4), prob=T, breaks=50, main = "X single cells ", xlab="CV")
-hist(unique(xdf$cvm[xdf$celltype==your_control_label]), col=rgb(1,0,0,1/4), prob=T, add=T, breaks=40)
-
 # Filter out variable wells and controls
 cvPar <- 0.46
 sc_kept<-unique( xdf$id[xdf$celltype!=your_control_label & xdf$cvm < cvPar])
@@ -285,21 +276,7 @@ xdf$control[xdf$celltype==your_control_label]<-"ctl"
 my_col3<-c( "black", "purple2")
 
 # Plot!
-ggplot(data=xdf, aes(x=cvm)) + geom_density(aes(fill=control, alpha=0.5), adjust=4) + theme_pubr() +
-  scale_fill_manual(values=my_col3[c(1,2)]) +
-  xlab("Quantification variability") + ylab("Density") + rremove("y.ticks") + rremove("y.text") +
-  font("xylab", size=35) +
-  font("x.text", size=30) +
-  coord_cartesian(xlim=c(0,1))+
-  #xlim(c(-0.15, 0.35)) +
-  # annotate("text", x=0.27, y= 14, label=paste0(scrate,"% single cells passed"), size=8, color=my_col3[c(2)])+
-  # annotate("text", x=0.27, y= 12.5, label=paste0(sc0rate,"% control wells passed"), size=8, color=my_col3[c(1)])+
-  annotate("text", x=0.172, y= 14, label=paste0(length(sc_kept)," single cells"), size=10, color=my_col3[c(2)])+
-  annotate("text", x=0.6, y= 12, label=paste0(length(sc0_kept)," control wells"), size=10, color=my_col3[c(1)])+
-  annotate("text", x=0.6, y= 14, label=paste0(length(sc_total) -length(sc_kept)," single cells"), size=10, color=my_col3[c(2)])+
-  annotate("text", x=0.165, y= 12, label=paste0(length(sc0_total) - length(sc0_kept)," control wells"), size=10, color=my_col3[c(1)])+
-  #annotate("text", x=0.25, y= 3, label="Macrophage-like", size=6) +
-  rremove("legend") + geom_vline(xintercept=0.45, lty=2, size=2, color="gray50")
+
 
 
 
